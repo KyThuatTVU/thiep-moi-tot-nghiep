@@ -1,0 +1,1645 @@
+/* ========================================================
+   THEME: POLAROID BEIGE - VINTAGE GRADUATION INVITATION
+   ======================================================== */
+
+:root {
+  --bg-desktop: #F0EBE0;
+  --bg-card: #FAF6EE;
+  --bg-card-alt: #F5EFE4;
+  --bg-input: #F5F0E8;
+  --bg-polaroid: #FFFFFF;
+  
+  --text-main: #1A1A1A;
+  --text-muted: #8B7D6B;
+  --text-subtle: #5C5245;
+  --text-light: #FFFFFF;
+
+  --border-color: #D4C8B0;
+  --border-light: rgba(196, 181, 160, 0.4);
+  --tape-color: rgba(225, 215, 195, 0.75);
+  --tape-dark: rgba(200, 185, 160, 0.85);
+  --accent-gold: #C29B38;
+  --accent-heart: #B83B3B;
+
+  --font-body: 'Quicksand', 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-heading: 'Quicksand', 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-script: 'Dancing Script', cursive;
+  
+  /* Aliases hỗ trợ tương thích */
+  --font-serif: var(--font-heading);
+  --font-sans: var(--font-body);
+  
+  --shadow-card: 0 16px 50px rgba(42, 34, 24, 0.08);
+  --shadow-polaroid: 0 12px 28px rgba(0, 0, 0, 0.12);
+  --shadow-subtle: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  min-height: 100%;
+  font-family: var(--font-body);
+  color: var(--text-main);
+  background-color: var(--bg-desktop);
+  background-image: 
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1px 9px),
+    radial-gradient(circle at 76% 38%, rgba(122, 96, 62, 0.07) 0 1px, transparent 1px 11px),
+    linear-gradient(180deg, #F5F0E6 0%, #EBE5D8 100%);
+  background-attachment: fixed;
+  scroll-behavior: smooth;
+}
+
+/* Floating Audio Player */
+.audio-control {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.music-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FAF6EE;
+  border: 1.5px solid var(--border-color);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.music-btn:hover {
+  transform: scale(1.08);
+  background: #FFFFFF;
+}
+
+.music-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.music-btn.playing svg {
+  animation: spinMusic 4s linear infinite;
+}
+
+@keyframes spinMusic {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.music-wave {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 16px;
+  padding: 0 6px;
+  background: rgba(250, 246, 238, 0.85);
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.music-wave span {
+  width: 3px;
+  height: 6px;
+  background-color: var(--text-main);
+  border-radius: 2px;
+  animation: waveAnim 1s ease-in-out infinite alternate;
+}
+
+.music-wave span:nth-child(2) { animation-delay: 0.2s; height: 12px; }
+.music-wave span:nth-child(3) { animation-delay: 0.4s; height: 16px; }
+.music-wave span:nth-child(4) { animation-delay: 0.1s; height: 9px; }
+
+.audio-control.paused .music-wave span {
+  animation: none;
+  height: 4px;
+}
+
+@keyframes waveAnim {
+  0% { height: 4px; }
+  100% { height: 16px; }
+}
+
+/* ========================================================
+   ENVELOPE COVER SCREEN (MÀN HÌNH MỞ THIỆP)
+   ======================================================== */
+.envelope-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #F5F0E8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              visibility 0.8s ease,
+              transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.envelope-screen.opened {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-40px) scale(1.02);
+  pointer-events: none;
+}
+
+.envelope-box {
+  max-width: min(520px, 94vw);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  animation: fadeInDown 0.9s ease;
+}
+
+.envelope-icon-wrap {
+  position: relative;
+  width: 110px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.envelope-graphic {
+  width: 100px;
+  height: 80px;
+  filter: drop-shadow(0 8px 16px rgba(180, 160, 130, 0.35));
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: sparkleTwinkle 2s infinite ease-in-out;
+}
+.sparkle-1 { top: -4px; right: -4px; animation-delay: 0.2s; }
+.sparkle-2 { bottom: 6px; left: -8px; animation-delay: 0.7s; }
+
+@keyframes sparkleTwinkle {
+  0%, 100% { transform: scale(0.8); opacity: 0.4; }
+  50% { transform: scale(1.25); opacity: 1; }
+}
+
+.envelope-subtitle {
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.envelope-name {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 5.2vw, 2.15rem);
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.btn-open-invite {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #D6C2A5 0%, #E3D1B9 100%);
+  color: #FFFFFF;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 14px 34px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(180, 158, 128, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-open-invite:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(180, 158, 128, 0.55);
+}
+
+.btn-open-invite:active {
+  transform: scale(0.97);
+}
+
+.btn-open-invite svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+.btn-open-invite:hover svg {
+  transform: translateX(4px);
+}
+
+/* ========================================================
+   MAIN CARD CONTAINER (MOBILE FRAME STYLE)
+   ======================================================== */
+.main-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.card-container {
+  width: 100%;
+  max-width: 520px;
+  background-color: var(--bg-card);
+  background-image: 
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.72) 0 1px, transparent 1px 7px),
+    radial-gradient(circle at 72% 44%, rgba(142, 122, 92, 0.12) 0 0.7px, transparent 0.8px 8px),
+    radial-gradient(circle at 38% 82%, rgba(255, 255, 255, 0.42) 0 1px, transparent 1.2px 9px),
+    linear-gradient(180deg, #FBF7F0 0%, #F5F0E6 100%);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Corner Ribbons & Decorative Badges */
+.corner-badge {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 20;
+  background: #1A1A1A;
+  color: #FFFFFF;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transform: rotate(6deg);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.cap-badge {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  z-index: 20;
+  font-size: 1.8rem;
+  transform: rotate(-12deg);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+/* ========================================================
+   HEADER / HERO SECTION
+   ======================================================== */
+.hero-section {
+  padding: 42px 20px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.sub-header-script {
+  font-family: var(--font-script);
+  font-size: 1.8rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.3rem, 5.2vw, 2.1rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.25;
+  letter-spacing: 0.5px;
+  color: var(--text-main);
+  margin-bottom: 24px;
+  white-space: nowrap;
+}
+
+/* Polaroid Photo Frame */
+.polaroid-wrapper {
+  position: relative;
+  width: 86%;
+  max-width: 360px;
+  margin: 0 auto 30px;
+}
+
+.polaroid-card {
+  background: var(--bg-polaroid);
+  padding: 14px 14px 38px 14px;
+  box-shadow: var(--shadow-polaroid);
+  border-radius: 2px;
+  transform: rotate(-1deg);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.polaroid-card:hover {
+  transform: rotate(0deg) scale(1.01);
+}
+
+.polaroid-img-box {
+  width: 100%;
+  aspect-ratio: 4 / 4.8;
+  overflow: hidden;
+  background: #EAE3D6;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.polaroid-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.polaroid-card:hover .polaroid-img {
+  transform: scale(1.03);
+}
+
+/* Placeholder for image if missing */
+.img-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 16px;
+}
+
+.polaroid-caption {
+  font-family: var(--font-script);
+  font-size: 1.7rem;
+  color: #2F2A24;
+  margin-top: 14px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Washi Tape accents */
+.washi-tape-top {
+  position: absolute;
+  top: -14px;
+  right: -8px;
+  width: 110px;
+  height: 28px;
+  background: var(--tape-dark);
+  opacity: 0.85;
+  transform: rotate(18deg);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  clip-path: polygon(4% 0%, 96% 2%, 100% 98%, 0% 96%);
+  z-index: 10;
+}
+
+.washi-tape-left {
+  position: absolute;
+  top: 35%;
+  left: -20px;
+  width: 90px;
+  height: 24px;
+  background: var(--tape-color);
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  z-index: 10;
+}
+
+.stamp-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 14px;
+  width: 55px;
+  height: 55px;
+  border: 2px dashed #9E8D77;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(12deg);
+  color: #80715D;
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.stamp-badge span {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ========================================================
+   EVENT DETAILS & MINI CALENDAR
+   ======================================================== */
+.section-block {
+  padding: 36px 22px;
+  position: relative;
+}
+
+.section-bg-alt {
+  background-color: var(--bg-card-alt);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.event-highlight-grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  text-align: center;
+  margin-bottom: 28px;
+  align-items: center;
+}
+
+.divider-vertical {
+  width: 1px;
+  height: 80%;
+  background: var(--border-color);
+  margin: auto;
+}
+
+.highlight-box {
+  padding: 10px;
+}
+
+.highlight-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #E8DECE;
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.highlight-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.highlight-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.highlight-val-day {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.highlight-val-date {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.highlight-val-time {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin-top: 6px;
+  color: var(--text-main);
+}
+
+/* Calendar Box */
+.calendar-container {
+  max-width: 340px;
+  margin: 0 auto 30px;
+  background: #FFFCF6;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.calendar-header {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--text-main);
+}
+
+.calendar-days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.cal-cell.empty {
+  visibility: hidden;
+}
+
+.cal-cell.event-day {
+  position: relative;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.cal-cell.event-day svg {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  fill: var(--text-main);
+  z-index: 1;
+}
+
+.cal-cell.event-day span {
+  position: relative;
+  z-index: 2;
+}
+
+/* Location Card */
+.location-box {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.venue-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 6px 0 4px;
+}
+
+.venue-address {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  max-width: 380px;
+  margin: 0 auto 18px;
+}
+
+.map-wrapper {
+  width: 100%;
+  height: 240px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1.5px solid var(--border-color);
+  box-shadow: var(--shadow-subtle);
+  position: relative;
+}
+
+.map-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.map-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 18px;
+  background: #FAF6EE;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.map-link-btn:hover {
+  background: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+/* ========================================================
+   COUNTDOWN TIMER
+   ======================================================== */
+.countdown-box {
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 24px 20px;
+  text-align: center;
+  background: rgba(255, 252, 246, 0.6);
+}
+
+.countdown-title {
+  font-family: var(--font-script);
+  font-size: 2rem;
+  color: var(--text-main);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.countdown-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.time-unit {
+  min-width: 65px;
+  padding: 10px 6px;
+  background: #FAF6EE;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.time-num {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1;
+}
+
+.time-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ========================================================
+   PHOTO GALLERY ("Khoảnh khắc thanh xuân")
+   ======================================================== */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 1.65rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-main);
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--text-main);
+  margin: 8px auto 0;
+  opacity: 0.5;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #EDE8DE;
+  box-shadow: var(--shadow-subtle);
+  cursor: pointer;
+  aspect-ratio: 4 / 3;
+}
+
+.gallery-item.featured {
+  grid-column: span 2;
+  aspect-ratio: 16 / 10;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #E5DFD2;
+  color: #8C7E6C;
+  font-size: 0.85rem;
+  gap: 6px;
+  padding: 10px;
+  text-align: center;
+}
+
+.gallery-placeholder svg {
+  width: 28px;
+  height: 28px;
+  opacity: 0.6;
+}
+
+/* Lightbox Modal */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  position: relative;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 6px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  display: block;
+  margin: auto;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* ========================================================
+   GUESTBOOK / SỔ LƯU BÚT
+   ======================================================== */
+.guestbook-card {
+  max-width: 440px;
+  margin: 0 auto;
+  background: #FFFCF6;
+  border: 1.5px solid var(--border-color);
+  border-radius: 20px;
+  padding: 22px 18px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.input-group {
+  margin-bottom: 14px;
+}
+
+.guest-input, .guest-textarea {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.guest-input:focus, .guest-textarea:focus {
+  border-color: var(--text-main);
+  box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.15);
+}
+
+.char-counter {
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  margin-top: 4px;
+}
+
+.guestbook-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-wish-suggest {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.08);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-wish-suggest:hover {
+  background: rgba(26, 26, 26, 0.15);
+}
+
+.btn-submit-wish {
+  flex: 1;
+  background: var(--text-main);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-submit-wish:hover {
+  opacity: 0.9;
+}
+.btn-submit-wish:active {
+  transform: scale(0.98);
+}
+
+/* Comments List */
+.wishes-list {
+  max-width: 440px;
+  margin: 20px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.wish-item {
+  background: #FAF6EE;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 12px 14px;
+  animation: fadeIn 0.4s ease;
+}
+
+.wish-author {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.wish-time {
+  font-size: 0.72rem;
+  font-weight: normal;
+  color: var(--text-muted);
+}
+
+.wish-text {
+  font-size: 0.88rem;
+  color: var(--text-subtle);
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.wishes-empty {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-subtle);
+  font-style: italic;
+  margin-top: 16px;
+}
+
+/* ========================================================
+   RSVP (XÁC NHẬN THAM DỰ)
+   ======================================================== */
+.rsvp-card {
+  max-width: 440px;
+  margin: 0 auto;
+  background: #FFFCF6;
+  border: 1.5px solid var(--border-color);
+  border-radius: 20px;
+  padding: 22px 18px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.rsvp-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.rsvp-btn-option {
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-color);
+  border-radius: 14px;
+  padding: 14px 10px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-subtle);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.rsvp-btn-option.selected {
+  background: var(--text-main);
+  color: #FFFFFF;
+  border-color: var(--text-main);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-submit-rsvp {
+  width: 100%;
+  background: var(--text-main);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 999px;
+  padding: 12px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-submit-rsvp:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.rsvp-notice {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #2E7D32;
+  margin-top: 10px;
+  font-weight: 600;
+  display: none;
+}
+
+/* ========================================================
+   NOTE PAPER / LỜI NGỎ
+   ======================================================== */
+.note-paper-container {
+  position: relative;
+  max-width: 440px;
+  margin: 10px auto 0;
+  padding: 20px 10px;
+}
+
+.note-paper {
+  background-color: #FFFDF9;
+  background-image: 
+    linear-gradient(#E8E0D2 1px, transparent 1px),
+    linear-gradient(90deg, #E8E0D2 1px, transparent 1px);
+  background-size: 20px 20px;
+  border: 1px solid #DCD0BD;
+  border-radius: 4px;
+  padding: 36px 30px 28px 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  position: relative;
+  transform: rotate(-0.5deg);
+}
+
+.note-tape-top {
+  position: absolute;
+  top: -12px;
+  left: 35%;
+  width: 90px;
+  height: 24px;
+  background: var(--tape-dark);
+  opacity: 0.8;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+  clip-path: polygon(3% 0%, 97% 3%, 100% 97%, 0% 95%);
+}
+
+.note-text {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  line-height: 1.8;
+  color: #2F2A24;
+  white-space: pre-line;
+  text-align: center;
+  font-weight: 500;
+}
+
+.note-sticker {
+  position: absolute;
+  bottom: -14px;
+  right: 10px;
+  font-size: 1.6rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  transform: rotate(15deg);
+}
+
+/* ========================================================
+   CONTACT SECTION
+   ======================================================== */
+.contact-btn-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 0 auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.contact-icon-large {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #FAF6EE;
+  border: 1.5px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-icon-large svg {
+  width: 34px;
+  height: 34px;
+  color: var(--text-main);
+}
+
+.contact-btn-trigger:hover .contact-icon-large {
+  transform: scale(1.06) rotate(-4deg);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.contact-hint {
+  font-size: 0.9rem;
+  color: var(--text-subtle);
+  font-weight: 500;
+}
+
+/* Contact Modal / Dialog */
+.contact-dialog {
+  border: none;
+  border-radius: 24px;
+  background: #FFFCF6;
+  border: 1.5px solid var(--border-color);
+  max-width: 440px;
+  width: calc(100% - 32px);
+  padding: 24px 20px;
+  margin: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.contact-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+}
+
+.dialog-close-btn {
+  float: right;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.contact-note-badge {
+  clear: both;
+  background: #F5EFE4;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 18px;
+}
+
+.contact-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-item-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #FFFCF6;
+  border: 1.5px solid var(--border-color);
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.contact-item-link:hover {
+  background: #FBF7F0;
+  transform: translateY(-1px);
+}
+
+.contact-item-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contact-item-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.contact-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-item-title {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+.contact-item-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ========================================================
+   SUGGESTION WISH MODAL
+   ======================================================== */
+.modal-suggestions {
+  border: none;
+  border-radius: 20px;
+  background: #FFFCF6;
+  border: 1.5px solid var(--border-color);
+  max-width: 420px;
+  width: calc(100% - 32px);
+  padding: 20px;
+  margin: auto;
+  box-shadow: 0 16px 45px rgba(0,0,0,0.2);
+}
+
+.modal-suggestions::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.suggestions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+  margin: 14px 0;
+}
+
+.suggestion-chip {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+.suggestion-chip:hover {
+  background: #EFE8DA;
+  border-color: var(--text-main);
+}
+
+/* ========================================================
+   CLOSING JOURNEY SECTION ("Một hành trình khép lại...")
+   ======================================================== */
+.journey-section {
+  padding: 28px 18px 40px;
+  position: relative;
+  background-color: var(--bg-card);
+}
+
+.journey-card {
+  position: relative;
+  background: #FFFDF9;
+  border: 2px solid #7597B8;
+  border-radius: 28px 26px 30px 24px / 25px 29px 24px 28px;
+  padding: 44px 24px 38px;
+  box-shadow: 0 10px 25px rgba(117, 151, 184, 0.08);
+  margin: 0 auto;
+  max-width: 440px;
+}
+
+/* Washi tape góc trên bên trái */
+.journey-tape-tl {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  width: 75px;
+  height: 24px;
+  background: #A2BDD5;
+  opacity: 0.85;
+  transform: rotate(-8deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  clip-path: polygon(4% 0%, 96% 3%, 100% 97%, 0% 95%);
+  z-index: 5;
+}
+
+/* Nón cử nhân đỉnh khung */
+.journey-top-cap {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 6;
+}
+
+.journey-top-cap svg {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 4px 6px rgba(74, 114, 154, 0.25));
+}
+
+.cap-sparkle {
+  color: #7597B8;
+  font-size: 0.85rem;
+  animation: sparkleTwinkle 2s infinite ease-in-out;
+}
+
+/* Các nét vẽ doodle trang trí */
+.doodle-star-left {
+  position: absolute;
+  top: 60px;
+  left: 14px;
+  color: #6187AB;
+  font-size: 1.1rem;
+}
+
+.doodle-heart-right {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  color: #6187AB;
+  font-size: 1.2rem;
+  transform: rotate(15deg);
+}
+
+/* Nhánh hoa khô dán băng keo bên trái */
+.journey-branch-left {
+  position: absolute;
+  bottom: 24px;
+  left: -12px;
+  width: 65px;
+  height: auto;
+  z-index: 5;
+}
+
+.branch-tape {
+  position: absolute;
+  bottom: 14px;
+  left: 8px;
+  width: 42px;
+  height: 16px;
+  background: #A2BDD5;
+  opacity: 0.85;
+  transform: rotate(-15deg);
+  clip-path: polygon(5% 0%, 95% 4%, 100% 96%, 0% 94%);
+}
+
+/* Bằng tốt nghiệp góc dưới bên phải */
+.journey-diploma-right {
+  position: absolute;
+  bottom: -14px;
+  right: -8px;
+  width: 82px;
+  height: auto;
+  z-index: 6;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+}
+
+/* Nội dung thông điệp */
+.journey-text-content {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.journey-text-p1 {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #2D2722;
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+
+.journey-text-p2 {
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: #3D352E;
+  line-height: 1.8;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.journey-sign-doodle {
+  margin-top: 24px;
+  text-align: left;
+  padding-left: 20px;
+  color: #6187AB;
+  font-size: 1.1rem;
+  font-family: var(--font-script);
+}
+
+/* ========================================================
+   BOTTOM COLLAGE (BÓ HOA, PHONG BÌ SEE YOU THERE, RUY BĂNG)
+   ======================================================== */
+.journey-bottom-collage {
+  position: relative;
+  max-width: 480px;
+  height: 240px;
+  margin: 25px auto 10px;
+  overflow: visible;
+}
+
+/* Bó hoa cẩm tú cầu xanh bên trái */
+.collage-bouquet {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 140px;
+  z-index: 5;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
+  animation: floatBouquet 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatBouquet {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-4px) rotate(1deg); }
+}
+
+/* Phong bì "See you there!" ở giữa */
+.collage-envelope {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 155px;
+  background: #FDF6E9;
+  border: 1px solid #E2D2BC;
+  border-radius: 6px;
+  padding: 22px 14px 18px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(70, 55, 35, 0.1);
+  z-index: 4;
+}
+
+.envelope-flap-decor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 38px;
+  background: linear-gradient(180deg, #F5E8D4 0%, #FAF0DF 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-bottom: 1px solid #DECDAF;
+}
+
+.envelope-see-you {
+  font-family: var(--font-script);
+  font-size: 1.65rem;
+  color: #4A6B8A;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+  margin-top: 4px;
+}
+
+.envelope-heart-seal {
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 26px;
+  background: radial-gradient(circle, #4A739C 0%, #2B4E73 100%);
+  clip-path: path("M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z");
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+}
+
+/* Dải ruy băng lụa xanh bên phải */
+.collage-ribbon {
+  position: absolute;
+  bottom: -15px;
+  right: 10px;
+  width: 140px;
+  height: 230px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Signature & Brand Footer */
+.journey-signature {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.journey-signature-logo {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #C07D7D;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.journey-signature-sub {
+  font-size: 0.78rem;
+  color: #A39683;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive cho mobile màn hình hẹp */
+@media (max-width: 440px) {
+  .journey-text-p1 {
+    font-size: 0.98rem;
+  }
+  .journey-text-p2 {
+    font-size: 0.92rem;
+  }
+  .collage-bouquet {
+    width: 110px;
+  }
+  .collage-envelope {
+    width: 135px;
+    padding: 18px 10px 14px;
+  }
+  .envelope-see-you {
+    font-size: 1.4rem;
+  }
+  .collage-ribbon {
+    width: 115px;
+    height: 190px;
+  }
+}
+
+/* ========================================================
+   FOOTER
+   ======================================================== */
+.site-footer {
+  padding: 30px 20px 40px;
+  text-align: center;
+  border-top: 1px solid var(--border-light);
+  margin-top: 20px;
+}
+
+.footer-quote {
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.footer-brand {
+  font-size: 0.8rem;
+  color: #A39683;
+  letter-spacing: 0.5px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 480px) {
+  .hero-title, .envelope-name {
+    font-size: clamp(1.15rem, 5.6vw, 1.65rem);
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+  }
+  .envelope-subtitle {
+    font-size: 1.25rem;
+    white-space: nowrap;
+  }
+  .time-num {
+    font-size: 1.45rem;
+  }
+  .time-unit {
+    min-width: 56px;
+    padding: 8px 4px;
+  }
+}
